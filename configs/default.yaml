@@ -1,0 +1,93 @@
+# Kombat Vision - default configuration.
+# Every value here overrides the defaults in kombat_vision/config.py.
+# Copy this file (e.g. configs/my_room.yaml) to keep settings tuned for your own setup.
+
+camera:
+  index: 0
+  width: 640
+  height: 480
+  mirror: true            # selfie view: moving your hand right moves it right on screen
+  use_directshow: true    # faster camera opening on Windows
+
+preprocessing:
+  scale: 0.5              # processing resolution = camera resolution * scale
+  blur_ksize: 5           # Gaussian blur kernel (odd number, 0 = off)
+
+background:
+  method: mog2            # mog2 | codebook | none
+  warmup_frames: 60       # frames used to learn the empty scene (step out of the frame!)
+  mog2:
+    history: 300
+    var_threshold: 25
+    detect_shadows: true
+    learning_rate: -1         # during warm-up (-1 = automatic)
+    learning_rate_after: 0.0005   # after warm-up: small, so a still player is not absorbed
+  codebook:
+    max_codewords: 5
+    color_epsilon: 12.0       # max color distortion (Kim et al. epsilon)
+    alpha: 0.6                # lower brightness bound (Imax * alpha)
+    beta: 1.25                # upper brightness bound (Imax * beta)
+
+skin:
+  calibration_frames: 45
+  roi: [0.42, 0.30, 0.16, 0.24]   # calibration box (x, y, w, h) as fractions of the frame
+  margin_cr: 6
+  margin_cb: 6
+  min_y: 40               # ignore very dark pixels
+  default_cr: [133, 173]  # used before calibration (Chai & Ngan ranges)
+  default_cb: [77, 127]
+  morph_kernel: 5
+
+face:
+  enabled: true
+  scale_factor: 1.15
+  min_neighbors: 5
+  min_size: 40            # pixels at processing resolution
+  detect_every: 2         # run Viola-Jones every N frames, track in between
+  mask_padding: 0.25      # face box enlarged by this ratio before removing it from the skin mask
+
+hand:
+  min_area_ratio: 0.008   # smallest hand blob, as a fraction of the frame area
+  use_region_growing: true
+  region_grow_tolerance: 10   # max Cr/Cb difference from the seed (palm center)
+  use_canny_split: true       # cut the hand mask along Canny edges (separates touching fingers)
+  canny_low: 40
+  canny_high: 110
+  wrist_cut: true
+  wrist_cut_factor: 1.7       # cut everything below palm_center + factor * palm_radius
+
+fingers:
+  defect_max_angle: 90        # degrees, angle between two fingers at the defect point
+  defect_min_depth: 0.35      # defect depth / palm radius
+  extended_ratio: 1.75        # farthest contour point / palm radius to call one finger "extended"
+
+tracking:
+  process_noise: 1.0
+  measurement_noise: 8.0
+  max_lost_frames: 8
+
+dodge:
+  velocity_threshold: 0.10    # downward head speed, in face heights per frame
+  drop_threshold: 0.55        # head below its rest position by this many face heights
+  cooldown_s: 0.8
+
+gestures:
+  stable_frames: 4            # a gesture must be seen this many frames in a row
+  hold_repeat_s: 0.7          # holding an attack gesture repeats the attack after this delay (0 = never)
+  move_zones: [0.33, 0.67]    # hand x position: left zone | dead zone | right zone
+  mapping:                    # gesture -> game action
+    one: punch                # thumb up (or one finger)
+    four: kick
+    palm: block
+    two: special
+    fist: none
+    three: none
+
+game:
+  width: 1100
+  height: 620
+  fps: 60
+  round_time_s: 99
+  bot_difficulty: normal      # easy | normal | hard
+  show_camera_thumbnail: true
+  keyboard_always_on: true    # keyboard keeps working in vision mode (handy for debugging)

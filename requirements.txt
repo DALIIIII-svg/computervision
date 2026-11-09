@@ -1,0 +1,12 @@
+# Core
+numpy>=1.24,<3
+# OpenCV 5 removed the Haar cascade (Viola-Jones) module, so stay on 4.x.
+# The "contrib" build is used because MediaPipe depends on it too: two different
+# OpenCV packages in the same environment overwrite each other.
+opencv-contrib-python>=4.9,<5
+# pygame-ce: community edition of pygame, same "import pygame", with wheels for new Python versions
+pygame-ce>=2.5
+pyyaml>=6.0
+
+# Tests
+pytest>=7.0

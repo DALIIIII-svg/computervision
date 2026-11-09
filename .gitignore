@@ -1,0 +1,22 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.idea/
+.vscode/
+*.egg-info/
+.DS_Store
+Thumbs.db
+
+# Datasets and trained models stay out of git
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+models/
+runs/
+*.npz
+*.pkl
+*.pt
+*.onnx

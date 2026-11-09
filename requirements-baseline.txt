@@ -1,0 +1,6 @@
+# Optional: MediaPipe Hands baseline (used only for comparison / evaluation).
+# Uses the MediaPipe Tasks API (HandLandmarker); the model file is downloaded
+# automatically to models/ on first run.
+mediapipe>=0.10.14
+# Keep OpenCV on 4.x (MediaPipe would otherwise pull OpenCV 5).
+opencv-contrib-python>=4.9,<5
