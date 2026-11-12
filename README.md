@@ -1,7 +1,24 @@
-# Kombat Vision
+# 🥊 Kombat Vision
+
+> A real-time fighting game you play with your **hands and head** through a webcam — powered by a perception pipeline built from classical computer vision.
+
+![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)
+![OpenCV](https://img.shields.io/badge/OpenCV-4.x-5C3EE8?logo=opencv&logoColor=white)
+![NumPy](https://img.shields.io/badge/NumPy-013243?logo=numpy&logoColor=white)
+![MediaPipe](https://img.shields.io/badge/MediaPipe-baseline-0097A7)
+![pygame-ce](https://img.shields.io/badge/pygame--ce-game-2E7D32)
+![pytest](https://img.shields.io/badge/tests-pytest-0A9EDC?logo=pytest&logoColor=white)
+![Status](https://img.shields.io/badge/status-in%20progress-orange)
 
 A Mortal Kombat–style fighting game controlled by **hand gestures** seen through a webcam,
-built for the SUP'COM **Computer Vision** course.
+built as a two-person project for the SUP'COM **Computer Vision** course.
+
+**Highlights**
+- 🎯 **Full perception pipeline written from the building blocks**: background subtraction (MOG2 and our own NumPy **Codebook**), skin segmentation, **Viola-Jones**, region growing, Canny, convexity defects.
+- 📍 **Tracking with CamShift + a Kalman filter written out in NumPy**, so hand and head positions survive missed detections.
+- ⚡ **Real-time by design**: the game runs at 60 FPS while capture and vision run in their own threads, with per-stage latency measured in a debug view.
+- 🔌 **Swappable input sources** (keyboard / our pipeline / MediaPipe) behind one `Actions` contract, for a fair comparison with a deep-learning baseline.
+- 🧪 **Tested without a camera**: pytest suite on synthetic hand images.
 
 The player fights a bot. Instead of a keyboard, the camera reads the player's hand shape
 (thumb up = punch, four fingers = kick, open palm = block…) and head movement (head down = dodge).
